@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ottler Design System</title>
+    <style>
+        :root {
+            /* Light Theme Colors */
+            --background-active: #eee5d9;
+            --background-inactive: #EEE5D9;
+            --background-screen-mode-white: #FAFAFA;
+            --button-border-active: #7DD6D1;
+            --button-background: #3C3935;
+            --button-border-inactive: #C8BAA8;
+            --button-icon-inactive: #DCCFBB;
+            --button-icon-active: #7DD6D1;
+            --wave-active-start: #DCCFBC;
+            --wave-active-end: #C9BBAA;
+            --wave-inactive-start: #DCCFBC;
+            --wave-inactive-end: #C9BBAA;
+            --mode-card-background: #F2ECE4;
+            --mode-divider: #D9CFBF;
+            --mode-icon-selected: #7DD6D1;
+            --mode-icon-unselected: #B09278;
+            --text-color: #454038;
+            --app-bar-foreground: #454038;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Colors */
+            --background-active: #1C2B2B;
+            --background-inactive: #1C1C1E;
+            --background-screen-mode-white: #FAFAFA;
+            --button-border-active: #7DD6D1;
+            --button-background: #2C2C2E;
+            --button-border-inactive: #3C3C3E;
+            --button-icon-inactive: #8E8E93;
+            --button-icon-active: #E5E5EA;
+            --wave-active-start: #252527;
+            --wave-active-end: #1C1C1E;
+            --wave-inactive-start: #252527;
+            --wave-inactive-end: #1C1C1E;
+            --mode-card-background: #2C2C2E;
+            --mode-divider: #3A3A3C;
+            --mode-icon-selected: #7DD6D1;
+            --mode-icon-unselected: #636366;
+            --text-color: #E5E5EA;
+            --app-bar-foreground: #AEAEB2;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-inactive);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .theme-toggle button {
+            background: var(--button-background);
+            color: var(--button-icon-active);
+            border: 2px solid var(--button-border-active);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Button Styles */
+        .btn {
+            min-width: 48px;
+            min-height: 48px;
+            padding: 12px 24px;
+            background-color: var(--button-background);
+            color: var(--button-icon-active);
+            border: 2px solid var(--button-border-inactive);
+            border-radius: 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            border-color: var(--button-border-active);
+        }
+
+        .btn.active {
+            border-color: var(--button-border-active);
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--mode-card-background);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            color: var(--text-color);
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        /* Wave Effect */
+        .wave-container {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+            margin: 20px 0;
+            background: linear-gradient(135deg, var(--wave-active-start), var(--wave-active-end));
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none"><path d="M0,50 Q250,0 500,50 T1000,50 L1000,100 L0,100 Z" fill="%23ffffff" opacity="0.2"/></svg>');
+            background-size: 1000px 100px;
+            animation: wave 10s linear infinite;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background-color: var(--mode-divider);
+            margin: 20px 0;
+        }
+
+        /* Color Palette Display */
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .color-item {
+            background-color: var(--mode-card-background);
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .color-swatch {
+            width: 100%;
+            height: 60px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .color-label {
+            font-size: 12px;
+            color: var(--text-color);
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle">
+        <button id="themeToggle" title="Toggle theme">🌓</button>
+    </div>
+
+    <div class="container">
+        <h1>Ottler Design System</h1>
+        <p>HTML/CSS implementation of the Flutter app's design system</p>
+
+        <div class="divider"></div>
+
+        <div class="card">
+            <h2 class="card-title">Color Palette</h2>
+            <div class="color-palette">
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: var(--background-active);"></div>
+                    <div class="color-label">--background-active</div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: var(--background-inactive);"></div>
+                    <div class="color-label">--background-inactive</div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: var(--button-border-active);"></div>
+                    <div class="color-label">--button-border-active</div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: var(--button-background);"></div>
+                    <div class="color-label">--button-background</div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: var(--button-icon-active);"></div>
+                    <div class="color-label">--button-icon-active</div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: var(--text-color);"></div>
+                    <div class="color-label">--text-color</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Buttons</h2>
+            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                <button class="btn">Primary Button</button>
+                <button class="btn active">Active Button</button>
+                <button class="btn" disabled>Disabled Button</button>
+                <button class="btn" style="min-width: 48px; min-height: 48px; padding: 0;">🔦</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Wave Effect</h2>
+            <div class="wave-container">
+                <div class="wave"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Cards</h2>
+            <div class="card" style="background-color: var(--mode-card-background);">
+                <h3 class="card-title">Mode Card</h3>
+                <p>This is an example of a mode card with the proper background and text colors.</p>
+                <div class="divider"></div>
+                <button class="btn">Action Button</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Typography</h2>
+            <h1>Heading 1</h1>
+            <h2>Heading 2</h2>
+            <h3>Heading 3</h3>
+            <h4>Heading 4</h4>
+            <p>Body text - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.</p>
+            <p style="font-size: 14px; color: var(--mode-icon-unselected);">Secondary text</p>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        // Check for saved theme preference or use system preference
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // Set initial theme
+        if (savedTheme) {
+            htmlElement.setAttribute('data-theme', savedTheme);
+            updateToggleButton(savedTheme);
+        } else {
+            htmlElement.setAttribute('data-theme', systemPrefersDark ? 'dark' : 'light');
+            updateToggleButton(systemPrefersDark ? 'dark' : 'light');
+        }
+
+        // Theme toggle click handler
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleButton(newTheme);
+        });
+
+        // Update toggle button icon based on theme
+        function updateToggleButton(theme) {
+            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+            themeToggle.setAttribute('title', theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+        }
+
+        // Watch for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                htmlElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+                updateToggleButton(e.matches ? 'dark' : 'light');
+            }
+        });
+
+        // Test feedback - simulate button clicks
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                if (this.disabled) return;
+
+                // Visual feedback
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
+
+                console.log('Button clicked:', this.textContent.trim());
+            });
+        });
+
+        // Log theme changes
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'data-theme') {
+                    console.log('Theme changed to:', htmlElement.getAttribute('data-theme'));
+                }
+            });
+        });
+
+        observer.observe(htmlElement, {
+            attributes: true
+        });
+    </script>
+</body>
+</html>
