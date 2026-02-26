@@ -48,7 +48,6 @@ To the maximum extent permitted by law, Ottler Studio is not liable for:
 - Loss of data, profits, or business interruption
 - Personal injury or property damage from App use
 
-Total liability shall not exceed $10 USD.
 
 ## 8. Termination
 
