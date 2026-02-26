@@ -22,3 +22,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+.aider.*
+aider
+CONVENTIONS.MD
+REPO-MAP.MD
+.aider*
